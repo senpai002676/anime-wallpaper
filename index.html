@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0a12">
+  <title>YumeWall — Anime Wallpapers in HD & 4K</title>
+  <meta name="description" content="Discover beautiful anime wallpapers in HD and 4K. Browse fantasy art, anime girls, game characters, phone wallpapers and desktop backgrounds.">
+  <link rel="canonical" href="https://YOUR-DOMAIN.example/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="YumeWall — Anime Wallpapers">
+  <meta property="og:description" content="A curated universe of anime wallpapers, characters and fantasy art.">
+  <meta property="og:image" content="assets/og-cover.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"YumeWall","description":"Anime wallpapers in HD and 4K","url":"https://YOUR-DOMAIN.example/","potentialAction":{"@type":"SearchAction","target":"https://YOUR-DOMAIN.example/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="YumeWall home"><span class="brand-mark">夢</span><span>YUME<span class="brand-light">WALL</span></span></a>
+    <nav class="desktop-nav"><a class="active" href="#discover">Discover</a><a href="#trending">Trending</a><a href="#collections">Collections</a></nav>
+    <div class="top-actions"><button class="icon-button" id="themeToggle" aria-label="Toggle theme">☼</button><a class="submit-link" href="#submit">Submit artwork <span>↗</span></a><button class="menu-button" id="menuButton" aria-label="Open menu">☰</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR DAILY DOSE OF ANIME ART</div>
+        <h1>Find your next<br><span>favorite world.</span></h1>
+        <p class="hero-description">A handpicked universe of beautiful anime wallpapers, fantasy illustrations and character art. Made for the screens you love.</p>
+        <form class="search-box" id="searchForm"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="Search anime, character, artist or tag..." aria-label="Search wallpapers"><kbd>↵</kbd><button type="submit">Explore</button></form>
+        <div class="quick-tags"><span>POPULAR:</span><button data-search="Fantasy">Fantasy</button><button data-search="Fox spirit">Fox spirit</button><button data-search="Cyberpunk">Cyberpunk</button><button data-search="Sakura">Sakura</button></div>
+      </div>
+      <div class="hero-art" aria-label="Featured anime wallpaper artwork">
+        <div class="hero-orbit orbit-a"></div><div class="hero-orbit orbit-b"></div>
+        <div class="hero-art-frame"><div class="hero-art-glow"></div><div class="hero-silhouette"><span class="hair hair-left"></span><span class="hair hair-right"></span><span class="ear ear-left"></span><span class="ear ear-right"></span><span class="face"><i></i><i></i><b></b></span><span class="collar"></span></div><div class="hero-art-caption"><span>FEATURED COLLECTION</span><strong>Moonlit Reverie</strong></div></div>
+        <div class="floating-note note-top">✦ CURATED ART</div><div class="floating-note note-bottom">4K <span>WALLPAPERS</span></div>
+      </div>
+      <div class="hero-bottom"><span>SCROLL TO EXPLORE</span><span class="scroll-line"></span><span>01 / 04</span></div>
+    </section>
+    <section class="stats-strip"><div><strong>CURATED</strong><span>Artwork worth saving</span></div><div><strong>HD + 4K</strong><span>Made for every screen</span></div><div><strong>NEW DROPS</strong><span>Fresh art, often</span></div><div><strong>FREE TO EXPLORE</strong><span>Your next wallpaper awaits</span></div></section>
+    <section class="content-section" id="discover">
+      <div class="section-heading"><div><div class="eyebrow">THE GALLERY</div><h2>Discover <span>artworks.</span></h2><p>Little windows into extraordinary worlds.</p></div><a class="text-link" href="#gallery">View all wallpapers <span>↗</span></a></div>
+      <div class="filter-row"><div class="filter-tabs" id="filterTabs"><button class="selected" data-filter="All">All art</button><button data-filter="Anime">Anime</button><button data-filter="Fantasy">Fantasy</button><button data-filter="Games">Games</button><button data-filter="Original">Original characters</button></div><select id="sortSelect" aria-label="Sort wallpapers"><option value="featured">Featured</option><option value="newest">Newest</option><option value="popular">Most popular</option></select></div>
+      <div class="gallery-grid" id="gallery" aria-live="polite"></div>
+      <div class="empty-state" id="emptyState" hidden><span>✧</span><h3>No artworks found</h3><p>Try another search or category.</p><button id="clearFilters">Clear filters</button></div>
+      <div class="load-more-wrap"><button class="load-more" id="loadMore">Load more artworks <span>↓</span></button></div>
+    </section>
+    <section class="collections-section" id="collections"><div class="section-heading"><div><div class="eyebrow">EXPLORE BY MOOD</div><h2>Find your <span>universe.</span></h2></div><p>Pick a mood. Discover a new world.</p></div><div class="collection-grid"><a href="#gallery" data-collection="Fantasy" class="collection-card collection-fantasy"><span>01 / DREAMSCAPES</span><strong>Fantasy realms</strong><i>↗</i></a><a href="#gallery" data-collection="Anime" class="collection-card collection-neon"><span>02 / AFTER DARK</span><strong>Neon nights</strong><i>↗</i></a><a href="#gallery" data-collection="Original" class="collection-card collection-soft"><span>03 / SOFT MOMENTS</span><strong>Original characters</strong><i>↗</i></a></div></section>
+    <section class="submit-banner" id="submit"><div><div class="eyebrow">ARTISTS WELCOME</div><h2>Have art to share?</h2><p>Help make this universe more beautiful. Submit original work or artwork you have permission to share.</p></div><a href="mailto:hello@yumewall.example?subject=Artwork%20submission" class="submit-button">Submit artwork <span>↗</span></a></section>
+  </main>
+  <footer><a class="brand" href="#"><span class="brand-mark">夢</span><span>YUME<span class="brand-light">WALL</span></span></a><p>A little corner of the internet for anime art lovers.</p><div class="footer-links"><a href="#discover">Discover</a><a href="#collections">Collections</a><a href="mailto:hello@yumewall.example">Contact</a><a href="privacy.html">Privacy</a></div><small>© <span id="year"></span> YumeWall. Respect artists and their work.</small></footer>
+  <div class="modal" id="wallpaperModal" aria-hidden="true"><div class="modal-backdrop" id="modalBackdrop"></div><div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div class="modal-image" id="modalImage"></div><div class="modal-info"><div class="eyebrow">WALLPAPER DETAILS</div><h2 id="modalTitle"></h2><p id="modalDescription"></p><div class="modal-meta" id="modalMeta"></div><a id="downloadButton" class="download-button" href="#" download>Download wallpaper <span>↓</span></a><p class="license-note">Download only artwork you own or have permission to use. Respect the artist's license.</p></div></div></div>
+  <script src="app.js" defer></script>
+</body></html>
