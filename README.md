@@ -1,51 +1,43 @@
-# YumeWall — Anime Wallpaper Gallery
+# SenpaiWall — Anime / Waifu Wallpaper Site
 
-A responsive, dark anime wallpaper gallery starter built with plain HTML, CSS and JavaScript. No build tools, database, paid hosting or framework required.
+A static wallpaper site in the style of waifuwall.com: hero + search, trending tags,
+Popular and Newest grids, and a detail view per wallpaper with a download button.
+No build step, no server — plain HTML/CSS/JS, hosted free on Cloudflare Pages from GitHub.
 
-## Features
-- Responsive anime-art gallery layout
-- Search by title, series, artist and tags
-- Category filters and sorting
-- Wallpaper detail modal and download action
-- Saved/favorite toggle (browser session only)
-- Collections, mobile navigation and light theme toggle
-- SEO metadata, Open Graph tags and basic structured data
-- Easy-to-edit wallpaper data in `app.js`
+## How it works
+- `index.html` / `style.css` / `app.js` — the site
+- `wallpapers.json` — the catalogue. One entry per wallpaper: title, file, size, tags, series, artist
+- `wallpapers/` — the image files
 
-## Preview locally
-Open `index.html` in a browser. For a local server, run:
-```bash
-python -m http.server 8000
-```
-Then visit `http://localhost:8000`.
+## Add a new wallpaper
+1. Drop the image into `wallpapers/`
+2. Add an entry to `wallpapers.json` (copy an existing one, change id/title/file/tags)
+3. Commit + push — Cloudflare redeploys automatically in ~1 minute
 
-## Add your wallpapers
-1. Create `assets/wallpapers/` in the repository.
-2. Upload images you created or have permission to distribute.
-3. Open `app.js` and add an object to the `wallpapers` array.
-4. Set its `image` field to the image path, for example `assets/wallpapers/my-wallpaper.jpg`.
-5. Add a descriptive title, artist credit, category, tags, resolution and description.
-6. Commit the changes. The gallery updates automatically.
+Tip: keep each image under 25 MB (Cloudflare Pages per-file limit). Phone wallpapers
+at JPG quality 85 are usually 300 KB – 1 MB.
 
-The `data/wallpapers.json` file is an example data format; the current front end uses the array in `app.js` so it can run without a fetch/server requirement.
+## Deploy — GitHub + Cloudflare Pages
 
-## Deploy free with Cloudflare Pages
-1. In Cloudflare Dashboard, open **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Connect GitHub and select `anime-wallpaper`.
-3. Framework preset: **None**.
-4. Build command: leave empty.
-5. Build output directory: `/`.
-6. Deploy. Cloudflare will provide a `.pages.dev` address.
-   
-Alternatively, use **Direct Upload** and upload the project files.
+### 1. GitHub
+1. Sign in at https://github.com (create a free account if needed)
+2. New repository → name it `senpai-wall` → Public → Create (no README needed, this folder has one)
+3. Push this folder:
+   ```
+   git remote add origin https://github.com/<YOUR-USERNAME>/senpai-wall.git
+   git push -u origin main
+   ```
 
-## Before public launch
-- Replace the demo name, email and canonical URL in `index.html`.
-- Add your own artwork; the current cards are CSS placeholders, not downloadable image files.
-- Replace the example artist credit and descriptions.
-- Add a real privacy policy and contact address if you add analytics, advertising or user submissions.
-- Add `sitemap.xml` with your final domain.
-- Do not upload copyrighted anime art unless you have the necessary rights or permission. Credit alone does not grant distribution rights.
+### 2. Cloudflare Pages
+1. Sign up free at https://dash.cloudflare.com (no credit card)
+2. Workers & Pages → Create application → Pages → Connect to Git
+3. Authorize GitHub and select the `senpai-wall` repo (selected repositories only)
+4. Build settings:
+   - Framework preset: **None**
+   - Build command: **(leave empty)**
+   - Build output directory: **/** (repo root)
+5. Save and Deploy → live at `https://senpai-wall.pages.dev` in 1–2 minutes
+6. Every later `git push` auto-deploys. Optional: Custom domains tab to attach your own domain.
 
-## Important limitations
-This starter is a static front end. It does not yet have user accounts, server-side uploads, moderation, a database, analytics, or an admin dashboard. Downloads are enabled once each wallpaper object has a valid image URL.
+Free tier (checked Nov 2026): unlimited static requests/bandwidth, 500 builds/month,
+20,000 files per site, 25 MB max per file.

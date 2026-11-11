@@ -1,28 +1,118 @@
-const wallpapers = [
- {id:"moonlit-fox-spirit",title:"Moonlit Fox Spirit",anime:"Original Character",artist:"YumeWall Studio",category:"Fantasy",tags:["Fox spirit","Fantasy","Red","Original"],resolution:"1440 × 2560",type:"Mobile",downloads:1240,date:"2026-11-08",description:"A mysterious fox spirit beneath a moonlit sky. Replace this demo entry with your own licensed artwork.",image:"",accent:"linear-gradient(145deg,#381d42,#b95778 52%,#f0b7ad)",symbol:"狐"},
- {id:"sakura-afterglow",title:"Sakura Afterglow",anime:"Original Character",artist:"YumeWall Studio",category:"Anime",tags:["Sakura","Pink","Spring"],resolution:"1920 × 1080",type:"Desktop",downloads:980,date:"2026-11-06",description:"Soft sakura petals drift through a quiet spring evening.",image:"",accent:"linear-gradient(145deg,#75476f,#e99cae 55%,#f4d4c2)",symbol:"桜"},
- {id:"neon-district",title:"Neon District 2099",anime:"Cyberpunk",artist:"YumeWall Studio",category:"Games",tags:["Cyberpunk","Neon","Night"],resolution:"1440 × 2560",type:"Mobile",downloads:875,date:"2026-11-05",description:"A rain-soaked neon city glowing long after midnight.",image:"",accent:"linear-gradient(145deg,#101e4a,#3a4fa4 55%,#e45d9b)",symbol:"夜"},
- {id:"starlight-witch",title:"Starlight Witch",anime:"Original Character",artist:"YumeWall Studio",category:"Fantasy",tags:["Magic","Stars","Purple"],resolution:"2560 × 1440",type:"Desktop",downloads:760,date:"2026-11-03",description:"A young witch gathers constellations above a sleepy town.",image:"",accent:"linear-gradient(145deg,#211c4d,#7654a5 55%,#d58ab5)",symbol:"星"},
- {id:"crimson-katana",title:"Crimson Moonblade",anime:"Original Character",artist:"YumeWall Studio",category:"Anime",tags:["Samurai","Red","Action"],resolution:"1440 × 2560",type:"Mobile",downloads:690,date:"2026-10-30",description:"A lone swordswoman stands beneath a dramatic crimson moon.",image:"",accent:"linear-gradient(145deg,#31151f,#9f344e 55%,#e8a17d)",symbol:"刃"},
- {id:"cloud-temple",title:"Cloud Temple",anime:"Fantasy Realm",artist:"YumeWall Studio",category:"Fantasy",tags:["Temple","Clouds","Dream"],resolution:"2560 × 1440",type:"Desktop",downloads:620,date:"2026-10-28",description:"An ancient temple floats above a sea of clouds at dawn.",image:"",accent:"linear-gradient(145deg,#3b577b,#91a9c9 55%,#e8c5b2)",symbol:"雲"},
- {id:"pixel-heart",title:"Pixel Heartbeat",anime:"Original Character",artist:"YumeWall Studio",category:"Games",tags:["Gaming","Pixel","Neon"],resolution:"1440 × 2560",type:"Mobile",downloads:580,date:"2026-10-25",description:"A playful retro-future world full of color and nostalgia.",image:"",accent:"linear-gradient(145deg,#24205a,#8c4d9e 55%,#ef789d)",symbol:"♡"},
- {id:"winter-kitsune",title:"Winter Kitsune",anime:"Original Character",artist:"YumeWall Studio",category:"Original",tags:["Fox spirit","Snow","Blue"],resolution:"1920 × 1080",type:"Desktop",downloads:510,date:"2026-10-20",description:"A gentle kitsune watches the first snow fall in a quiet forest.",image:"",accent:"linear-gradient(145deg,#233d5a,#7099b5 55%,#d9d8e9)",symbol:"雪"}
-];
-const state={filter:"All",query:"",sort:"featured",visible:8,saved:new Set()};
-const $=s=>document.querySelector(s);
-const gallery=$("#gallery"),empty=$("#emptyState");
-function filtered(){let items=wallpapers.filter(w=>{const hay=[w.title,w.anime,w.artist,w.category,...w.tags].join(" ").toLowerCase();return(!state.query||hay.includes(state.query.toLowerCase()))&&(state.filter==="All"||w.category===state.filter||w.tags.includes(state.filter));});if(state.sort==="newest")items.sort((a,b)=>b.date.localeCompare(a.date));if(state.sort==="popular")items.sort((a,b)=>b.downloads-a.downloads);return items;}
-function render(){const items=filtered();gallery.innerHTML=items.slice(0,state.visible).map(w=>`<article class="wall-card" data-id="${w.id}" tabindex="0" aria-label="View ${w.title}"><div class="wall-image" style="--art-bg:${w.accent}">${w.image?`<img src="${w.image}" alt="${w.title} anime wallpaper" loading="lazy" onerror="this.remove()">`:`<span class="art-fallback" aria-hidden="true">${w.symbol}</span>`}<span class="wall-badge">${w.type.toUpperCase()}</span><button class="wall-save ${state.saved.has(w.id)?"saved":""}" data-save="${w.id}" aria-label="Save ${w.title}">${state.saved.has(w.id)?"♥":"♡"}</button></div><div class="wall-info"><h3>${w.title}</h3><div class="wall-sub"><span>${w.anime}</span><span>♡ ${w.downloads.toLocaleString()}</span></div><div class="wall-tags">${w.tags.slice(0,2).map(t=>`<span>${t}</span>`).join("")}</div></div></article>`).join("");empty.hidden=items.length!==0;$("#loadMore").hidden=items.length<=state.visible;gallery.querySelectorAll(".wall-card").forEach(card=>{card.addEventListener("click",e=>{if(e.target.closest("[data-save]"))return;openModal(card.dataset.id)});card.addEventListener("keydown",e=>{if(e.key==="Enter")openModal(card.dataset.id)})});gallery.querySelectorAll("[data-save]").forEach(btn=>btn.addEventListener("click",e=>{e.stopPropagation();const id=btn.dataset.save;state.saved.has(id)?state.saved.delete(id):state.saved.add(id);render()}));}
-function openModal(id){const w=wallpapers.find(x=>x.id===id);if(!w)return;$("#modalTitle").textContent=w.title;$("#modalDescription").textContent=w.description;$("#modalMeta").innerHTML=[w.anime,w.artist,w.resolution,w.type,...w.tags].map(x=>`<span>${x}</span>`).join("");$("#modalImage").innerHTML=w.image?`<img src="${w.image}" alt="${w.title}">`:`<div class="art-fallback" style="position:relative;width:100%;height:430px;background:${w.accent}">${w.symbol}</div>`;const dl=$("#downloadButton");if(w.image){dl.href=w.image;dl.download=w.id+".jpg";dl.style.opacity="1";dl.style.pointerEvents="auto"}else{dl.href="#";dl.style.opacity=".5";dl.style.pointerEvents="none";dl.textContent="Add an image URL to enable download"}$("#wallpaperModal").classList.add("open");$("#wallpaperModal").setAttribute("aria-hidden","false");document.body.style.overflow="hidden";}
-function closeModal(){$("#wallpaperModal").classList.remove("open");$("#wallpaperModal").setAttribute("aria-hidden","true");document.body.style.overflow="";}
-$("#searchForm").addEventListener("submit",e=>{e.preventDefault();state.query=$("#searchInput").value.trim();state.visible=8;render();$("#discover").scrollIntoView({behavior:"smooth"})});
-document.querySelectorAll("[data-search]").forEach(b=>b.addEventListener("click",()=>{$("#searchInput").value=b.dataset.search;state.query=b.dataset.search;state.visible=8;render();$("#discover").scrollIntoView({behavior:"smooth"})}));
-$("#filterTabs").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;state.filter=b.dataset.filter;state.visible=8;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("selected",x===b));render()});
-$("#sortSelect").addEventListener("change",e=>{state.sort=e.target.value;render()});
-$("#loadMore").addEventListener("click",()=>{state.visible+=8;render()});
-$("#clearFilters").addEventListener("click",()=>{state.query="";state.filter="All";$("#searchInput").value="";document.querySelector('[data-filter="All"]').click()});
-document.querySelectorAll("[data-collection]").forEach(a=>a.addEventListener("click",()=>{state.filter=a.dataset.collection;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("selected",x.dataset.filter===state.filter));render()}));
-$("#modalClose").addEventListener("click",closeModal);$("#modalBackdrop").addEventListener("click",closeModal);document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
-$("#themeToggle").addEventListener("click",()=>document.body.classList.toggle("light"));
-$("#menuButton").addEventListener("click",()=>document.body.classList.toggle("menu-open"));
-$("#year").textContent=new Date().getFullYear();render();
+// SenpaiWall — loads wallpapers.json, renders grids, handles search/filter/detail.
+let ALL = [];
+let activeTag = null;
+let activeDevice = "all";
+
+const $ = s => document.querySelector(s);
+
+async function init() {
+  const res = await fetch("wallpapers.json");
+  ALL = await res.json();
+  $("#stat-count").textContent = ALL.length;
+  renderTags();
+  render();
+  // Deep link: #w=ID opens that wallpaper
+  const m = location.hash.match(/w=(\d+)/);
+  if (m) { const w = ALL.find(x => x.id == m[1]); if (w) openModal(w); }
+}
+
+function matches(w) {
+  if (activeDevice !== "all" && w.orientation !== activeDevice) return false;
+  if (activeTag && !w.tags.includes(activeTag)) return false;
+  const q = $("#search").value.trim().toLowerCase();
+  if (q) {
+    const hay = (w.title + " " + w.series + " " + w.tags.join(" ")).toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+  return true;
+}
+
+function sorted(list) {
+  const mode = $("#sort").value;
+  const byRes = w => w.width * w.height;
+  if (mode === "popular") return [...list].sort((a, b) => b.views - a.views);
+  if (mode === "res") return [...list].sort((a, b) => byRes(b) - byRes(a));
+  return [...list].sort((a, b) => b.id - a.id); // newest = highest id first
+}
+
+function card(w) {
+  const el = document.createElement("article");
+  el.className = "card";
+  el.innerHTML = `
+    <img loading="lazy" src="${w.file}" alt="${w.title} — ${w.series} wallpaper">
+    <div class="card-body">
+      <div class="card-title">${w.title}</div>
+      <div class="card-meta">
+        <span class="badge">${w.res}</span>
+        <span>${w.width}×${w.height}</span>
+        <span>#${w.id}</span>
+        <span>${w.series}</span>
+      </div>
+    </div>`;
+  el.addEventListener("click", () => openModal(w));
+  return el;
+}
+
+function render() {
+  const list = sorted(ALL.filter(matches));
+  const popular = [...ALL.filter(matches)].sort((a, b) => b.views - a.views).slice(0, 8);
+  const newestGrid = $("#grid-newest"), popularGrid = $("#grid-popular");
+  newestGrid.innerHTML = ""; popularGrid.innerHTML = "";
+  list.forEach(w => newestGrid.appendChild(card(w)));
+  popular.forEach(w => { if (!list.includes(w)) return; popularGrid.appendChild(card(w)); });
+  $("#no-results").hidden = list.length > 0;
+  $("#popular").style.display = popular.length ? "" : "none";
+}
+
+function renderTags() {
+  const counts = {};
+  ALL.forEach(w => w.tags.forEach(t => counts[t] = (counts[t] || 0) + 1));
+  const cloud = $("#tag-cloud");
+  cloud.innerHTML = "";
+  Object.entries(counts).sort((a, b) => b[1] - a[1]).forEach(([tag, n]) => {
+    const b = document.createElement("button");
+    b.className = "tag" + (activeTag === tag ? " active" : "");
+    b.textContent = `${tag} · ${n}`;
+    b.addEventListener("click", () => {
+      activeTag = activeTag === tag ? null : tag;
+      renderTags(); render();
+    });
+    cloud.appendChild(b);
+  });
+}
+
+function openModal(w) {
+  $("#modal-img").src = w.file;
+  $("#modal-img").alt = `${w.title} — ${w.series} wallpaper`;
+  $("#modal-title").textContent = `${w.title} #${w.id}`;
+  $("#modal-meta").textContent = `${w.res} · ${w.width}×${w.height} · ${w.orientation} · Series: ${w.series} · Artist: ${w.artist}`;
+  $("#modal-desc").textContent =
+    `A ${w.res} ${w.orientation.toLowerCase()} wallpaper — ${w.title}. ` +
+    `Perfect as a phone background: the composition leaves clean space at the top for your clock and at the bottom for your app dock. ` +
+    `Download the original ${w.width}×${w.height} file, free for personal use.`;
+  const tags = $("#modal-tags"); tags.innerHTML = "";
+  w.tags.forEach(t => { const s = document.createElement("span"); s.className = "tag"; s.textContent = t; tags.appendChild(s); });
+  const dl = $("#modal-download");
+  dl.href = w.file; dl.setAttribute("download", w.file.split("/").pop());
+  $("#modal-copy").onclick = () => {
+    const url = location.origin + location.pathname + "#w=" + w.id;
+    navigator.clipboard && navigator.clipboard.writeText(url);
+    $("#modal-copy").textContent = "Link copied ✓";
+    setTimeout(() => $("#modal-copy").textContent = "Copy page link", 1500);
+  };
+  $("#modal").hidden = false;
+  history.replaceState(null, "", "#w=" + w.id);
+}
+function closeModal() { $("#modal").hidden = true; history.replaceState(null, "", location.pathname); }
+
+document.addEventListener("DOMContentLoaded", () => {
+  init();
+  $("#search").addEventListener("input", render);
+  $("#sort").addEventListener("change", render);
+  document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+    document.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
+    c.classList.add("active"); activeDevice = c.dataset.device; render();
+  }));
+  document.querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", closeModal));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+});
