@@ -37,7 +37,7 @@ function sorted(list) {
 
 function card(w) {
   const el = document.createElement("article");
-  el.className = "card";
+  el.className = "card " + w.orientation.toLowerCase();
   el.innerHTML = `
     <img loading="lazy" src="${w.file}" alt="${w.title} — ${w.series} wallpaper">
     <div class="card-body">
@@ -82,14 +82,18 @@ function renderTags() {
 }
 
 function openModal(w) {
+  document.querySelector(".modal-card").classList.toggle("desktop", w.orientation === "Desktop");
   $("#modal-img").src = w.file;
   $("#modal-img").alt = `${w.title} — ${w.series} wallpaper`;
   $("#modal-title").textContent = `${w.title} #${w.id}`;
   $("#modal-meta").textContent = `${w.res} · ${w.width}×${w.height} · ${w.orientation} · Series: ${w.series} · Artist: ${w.artist}`;
   $("#modal-desc").textContent =
-    `A ${w.res} ${w.orientation.toLowerCase()} wallpaper — ${w.title}. ` +
-    `Perfect as a phone background: the composition leaves clean space at the top for your clock and at the bottom for your app dock. ` +
-    `Download the original ${w.width}×${w.height} file, free for personal use.`;
+    w.orientation === "Desktop"
+      ? `A ${w.res} desktop wallpaper — ${w.title}. Perfect as a wide 16:9 background for your monitor. ` +
+        `Download the original ${w.width}×${w.height} file, free for personal use.`
+      : `A ${w.res} ${w.orientation.toLowerCase()} wallpaper — ${w.title}. ` +
+        `Perfect as a phone background: the composition leaves clean space at the top for your clock and at the bottom for your app dock. ` +
+        `Download the original ${w.width}×${w.height} file, free for personal use.`;
   const tags = $("#modal-tags"); tags.innerHTML = "";
   w.tags.forEach(t => { const s = document.createElement("span"); s.className = "tag"; s.textContent = t; tags.appendChild(s); });
   const dl = $("#modal-download");
