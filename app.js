@@ -39,7 +39,7 @@ function card(w) {
   const el = document.createElement("article");
   el.className = "card " + w.orientation.toLowerCase();
   el.innerHTML = `
-    <img loading="lazy" src="${w.file}" alt="${w.title} — ${w.series} wallpaper">
+    <img loading="lazy" decoding="async" src="${w.thumb || w.file}" alt="${w.title} — ${w.series} wallpaper">
     <div class="card-body">
       <div class="card-title">${w.title}</div>
       <div class="card-meta">
