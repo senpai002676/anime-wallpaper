@@ -2,6 +2,8 @@
 let ALL = [];
 let activeTag = null;
 let activeDevice = "all";
+const PAGE_SIZE = 12;
+let currentPage = 1;
 
 const $ = s => document.querySelector(s);
 
@@ -56,12 +58,52 @@ function card(w) {
 function render() {
   const list = sorted(ALL.filter(matches));
   const popular = [...ALL.filter(matches)].sort((a, b) => b.views - a.views).slice(0, 8);
+  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = list.slice(start, start + PAGE_SIZE);
   const newestGrid = $("#grid-newest"), popularGrid = $("#grid-popular");
   newestGrid.innerHTML = ""; popularGrid.innerHTML = "";
-  list.forEach(w => newestGrid.appendChild(card(w)));
+  pageItems.forEach(w => newestGrid.appendChild(card(w)));
   popular.forEach(w => { if (!list.includes(w)) return; popularGrid.appendChild(card(w)); });
   $("#no-results").hidden = list.length > 0;
   $("#popular").style.display = popular.length ? "" : "none";
+  renderPagination(list.length, totalPages, start);
+}
+
+function renderPagination(total, totalPages, start) {
+  const nav = $("#pagination");
+  if (!nav) return;
+  nav.innerHTML = "";
+  if (total <= PAGE_SIZE) return; // one page — no controls needed
+  const info = document.createElement("span");
+  info.className = "page-info";
+  info.textContent = `Showing ${start + 1}–${Math.min(start + PAGE_SIZE, total)} of ${total}`;
+  const prev = document.createElement("button");
+  prev.textContent = "‹ Prev";
+  prev.disabled = currentPage === 1;
+  prev.addEventListener("click", () => goToPage(currentPage - 1));
+  nav.appendChild(prev);
+  for (let p = 1; p <= totalPages; p++) {
+    const b = document.createElement("button");
+    b.textContent = p;
+    if (p === currentPage) b.className = "active";
+    b.setAttribute("aria-current", p === currentPage ? "page" : "false");
+    b.addEventListener("click", () => goToPage(p));
+    nav.appendChild(b);
+  }
+  const next = document.createElement("button");
+  next.textContent = "Next ›";
+  next.disabled = currentPage === totalPages;
+  next.addEventListener("click", () => goToPage(currentPage + 1));
+  nav.appendChild(next);
+  nav.appendChild(info);
+}
+
+function goToPage(p) {
+  currentPage = p;
+  render();
+  document.querySelector("#newest").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function renderTags() {
@@ -75,6 +117,7 @@ function renderTags() {
     b.textContent = `${tag} · ${n}`;
     b.addEventListener("click", () => {
       activeTag = activeTag === tag ? null : tag;
+      currentPage = 1;
       renderTags(); render();
     });
     cloud.appendChild(b);
@@ -111,11 +154,11 @@ function closeModal() { $("#modal").hidden = true; history.replaceState(null, ""
 
 document.addEventListener("DOMContentLoaded", () => {
   init();
-  $("#search").addEventListener("input", render);
-  $("#sort").addEventListener("change", render);
+  $("#search").addEventListener("input", () => { currentPage = 1; render(); });
+  $("#sort").addEventListener("change", () => { currentPage = 1; render(); });
   document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
     document.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
-    c.classList.add("active"); activeDevice = c.dataset.device; render();
+    c.classList.add("active"); activeDevice = c.dataset.device; currentPage = 1; render();
   }));
   document.querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", closeModal));
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
