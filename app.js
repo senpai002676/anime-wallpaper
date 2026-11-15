@@ -1,6 +1,5 @@
 // SenpaiWall — loads wallpapers.json, renders grids, handles search/filter/detail.
 let ALL = [];
-let activeTag = null;
 let activeDevice = "all";
 const PAGE_SIZE = 12;
 let currentPage = 1;
@@ -11,7 +10,6 @@ async function init() {
   const res = await fetch("wallpapers.json");
   ALL = await res.json();
   $("#stat-count").textContent = ALL.length;
-  renderTags();
   render();
   // Deep link: #w=ID opens that wallpaper
   const m = location.hash.match(/w=(\d+)/);
@@ -20,7 +18,6 @@ async function init() {
 
 function matches(w) {
   if (activeDevice !== "all" && w.orientation !== activeDevice) return false;
-  if (activeTag && !w.tags.includes(activeTag)) return false;
   const q = $("#search").value.trim().toLowerCase();
   if (q) {
     const hay = (w.title + " " + w.series + " " + w.tags.join(" ")).toLowerCase();
@@ -104,24 +101,6 @@ function goToPage(p) {
   currentPage = p;
   render();
   document.querySelector("#newest").scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function renderTags() {
-  const counts = {};
-  ALL.forEach(w => w.tags.forEach(t => counts[t] = (counts[t] || 0) + 1));
-  const cloud = $("#tag-cloud");
-  cloud.innerHTML = "";
-  Object.entries(counts).sort((a, b) => b[1] - a[1]).forEach(([tag, n]) => {
-    const b = document.createElement("button");
-    b.className = "tag" + (activeTag === tag ? " active" : "");
-    b.textContent = `${tag} · ${n}`;
-    b.addEventListener("click", () => {
-      activeTag = activeTag === tag ? null : tag;
-      currentPage = 1;
-      renderTags(); render();
-    });
-    cloud.appendChild(b);
-  });
 }
 
 function openModal(w) {
