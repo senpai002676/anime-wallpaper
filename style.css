@@ -25,7 +25,7 @@ main, .tags-section{max-width:1280px;margin:0 auto;padding:0 1rem}
 .hero{text-align:center;padding:3.2rem 1rem 1.4rem;background:
   radial-gradient(700px 300px at 20% 0%,rgba(255,92,138,.18),transparent),
   radial-gradient(700px 300px at 80% 0%,rgba(138,92,255,.18),transparent)}
-.hero h1{font-size:clamp(1.9rem,5vw,3.2rem);font-weight:900;letter-spacing:-.02em}
+.hero h1{font-size:clamp(1.9rem,5vw,3.2rem);font-weight:900;letter-spacing:-.02em;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{color:var(--muted);max-width:640px;margin:.8rem auto 0}
 .hero-stats{display:flex;gap:1.6rem;justify-content:center;margin-top:1.2rem;color:var(--muted);flex-wrap:wrap}
 .hero-stats strong{color:var(--text)}
