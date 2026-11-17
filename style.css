@@ -11,7 +11,8 @@ main, .tags-section{max-width:1280px;margin:0 auto;padding:0 1rem}
 /* Nav */
 .nav{position:sticky;top:0;z-index:50;display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;
   padding:.7rem 1.2rem;background:rgba(13,13,20,.92);backdrop-filter:blur(8px);border-bottom:1px solid #26263a}
-.logo{font-size:1.35rem;font-weight:800;color:var(--text)}
+.logo{display:inline-flex;align-items:center;gap:.5rem;font-size:1.35rem;font-weight:800;color:var(--text)}
+.logo img{height:40px;width:40px;object-fit:contain;display:block}
 .logo span{color:var(--accent)}
 .nav nav{display:flex;gap:1rem}
 .nav nav a{color:var(--muted);font-weight:600}
