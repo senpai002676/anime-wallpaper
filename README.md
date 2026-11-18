@@ -1,13 +1,20 @@
-# SenpaiWall — Anime / Waifu Wallpaper Site
+# animewallpaper — Anime / Waifu Wallpaper Site
 
 A static wallpaper site in the style of waifuwall.com: hero + search, trending tags,
 Popular and Newest grids, and a detail view per wallpaper with a download button.
 No build step, no server — plain HTML/CSS/JS, hosted free on Cloudflare Pages from GitHub.
 
+Every wallpaper also has its own crawlable page at `/wallpaper/<slug>/`, listed in
+`sitemap.xml` (homepage + 40 wallpaper pages), with `robots.txt` allowing all crawlers.
+
 ## How it works
 - `index.html` / `style.css` / `app.js` — the site
 - `wallpapers.json` — the catalogue. One entry per wallpaper: title, file, size, tags, series, artist
 - `wallpapers/` — the image files
+- `thumbs/` — 800px thumbnails used by the gallery cards
+- `wallpaper/<slug>/` — one static SEO page per wallpaper (title, canonical, Open Graph, JSON-LD)
+- `sitemap.xml` — homepage + every wallpaper page
+- `robots.txt` — allows all crawlers, points to the sitemap
 
 ## Add a new wallpaper
 1. Drop the image into `wallpapers/`
