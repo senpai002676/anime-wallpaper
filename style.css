@@ -48,6 +48,7 @@ main, .tags-section{max-width:1280px;margin:0 auto;padding:0 1rem}
 .card{background:var(--card);border-radius:var(--radius);overflow:hidden;cursor:pointer;
   border:1px solid #24243a;transition:transform .15s ease,border-color .15s ease}
 .card:hover{transform:translateY(-3px);border-color:var(--accent)}
+a.card{color:var(--text)}
 .card img{width:100%;object-fit:cover;display:block;background:#222}
 .card.desktop img{aspect-ratio:16/9}
 .card.mobile img{aspect-ratio:9/16}
