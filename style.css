@@ -95,3 +95,10 @@ footer .small{font-size:.85rem;margin-top:.4rem}
 .wallpaper-description{margin:1.4rem 0;line-height:1.75}
 .wallpaper-description h2{font-size:1.15rem;margin:0 0 .4rem}
 .wallpaper-description p{margin:.7rem 0}
+
+/* Shop merch section */
+.shop-sub{color:var(--muted);margin:-.4rem 0 1.2rem}
+.shop-card img{aspect-ratio:1/1;background:#fff}
+.shop-price{color:var(--text);font-weight:700}
+.shop-more{margin:1.4rem 0 .5rem;text-align:center}
+.shop-more .btn{display:inline-block}
