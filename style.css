@@ -102,3 +102,9 @@ footer .small{font-size:.85rem;margin-top:.4rem}
 .shop-price{color:var(--text);font-weight:700}
 .shop-more{margin:1.4rem 0 .5rem;text-align:center}
 .shop-more .btn{display:inline-block}
+
+.shop-desc{color:var(--muted);font-size:.88rem;margin:.5rem 0 0;line-height:1.45}
+.shop-buy{display:inline-block;margin-top:.8rem}
+.shop-card .card-title{margin:0}
+.shop-card .card-title a{color:inherit;text-decoration:none}
+.shop-card .card-title a:hover{color:var(--accent)}
